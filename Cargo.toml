@@ -1,0 +1,16 @@
+[package]
+name = "celaut-explorer"
+version = "0.1.0"
+authors = ["Nat Knight <nathaniel.ep@gmail.com>"]
+edition = "2018"
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+wasm-bindgen="=0.2.27"
+celaut = {path="../celaut"}
+rand="*"
+
+[dev-dependencies]
+wasm-bindgen-cli="=0.2.27"
