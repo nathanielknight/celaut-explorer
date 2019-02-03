@@ -13,10 +13,10 @@ cargo +nightly build --release --target wasm32-unknown-unknown
 Write-Host "Creating celaut_explorer.js with wasm-bindgen"
 wasm-bindgen --no-modules target/wasm32-unknown-unknown/release/celaut_explorer.wasm --out-dir ./release
 
-if (Test-Path "release/celaut_explorer.d.ts") {
-    Write-Host "Removing extraneous TypeScript definition files"
-    Remove-Item -Path "release/celaut_explorer.d.ts"
-}
+Move-Item -Force -Path "./release/celaut_explorer.d.ts" -Destination "ts_src"
 
-Write-Host "Copying HTML into 'release'"
-Copy-Item -Path "index.html" -Destination "./release/"
+Write-Host "Compiling TypeScript"
+tsc
+
+Write-Host "Copying static files into 'release'"
+Copy-Item -Force -Path "index.html" -Destination "./release/"

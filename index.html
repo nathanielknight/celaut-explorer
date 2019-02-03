@@ -18,10 +18,10 @@
     <div id="container">
       <canvas width="128" height="128" id="celaut-canvas"></canvas>
       <div>
-        <button onclick="randomize_seed()">
+        <button onclick="EventHandlers.randomizeSeed()">
           Randomize Seed
         </button>
-        <button onclick="randomize_rule()">
+        <button onclick="EventHandlers.randomizeTable()">
           Randomize Rule
         </button>
         <p>
@@ -30,121 +30,16 @@
       </div>
     </div>
 
+    <script src="manager.js"></script>
     <script src="celaut_explorer.js"></script>
     <script>
-      delete WebAssembly.instantiateStreaming;
-      // TODO: Set canvas pointer events (maybe scale coordinates as necessary)
       const { CelautApp } = wasm_bindgen;
 
-      function log(msg) {
-        console.log(msg);
-      }
+      delete WebAssembly.instantiateStreaming;
 
-      function random_values(cnt) {
-        var seed = "";
-        for (var i = 0; i < cnt; i++) {
-          let c = Math.floor(Math.random() * 4).toString();
-          seed += c;
-        }
-        return seed;
-      }
-
-      class AppManager {
-        constructor(seed, table) {
-          this.cnv = document.getElementById("celaut-canvas");
-          this.ctx = this.cnv.getContext("2d");
-          this.ctx.imageSmoothingEnabled = false;
-          this.new_seed(seed);
-          this.new_table(table);
-        }
-
-        new_seed(seed) {
-          if (seed != null) {
-            this.seed = seed;
-          } else {
-            this.seed = random_values(128);
-          }
-        }
-
-        new_table(tbl) {
-          if (tbl != null) {
-            this.table = tbl;
-          } else {
-            this.table = random_values(49);
-          }
-        }
-
-        render() {
-          let imgdata = this.ctx.getImageData(0, 0, 128, 128);
-          let app = new CelautApp(this.seed, this.table);
-          app.write_imagedata(imgdata.data);
-          this.ctx.putImageData(imgdata, 0, 0);
-          let data_url = this.cnv.toDataURL();
-          set_data_url_link(data_url);
-        }
-
-        state_obj() {
-          return { seed: this.seed, table: this.table };
-        }
-
-        set_state(state_obj) {
-          this.seed = state_obj.seed;
-          this.table = state_obj.table;
-        }
-
-        url_fragment() {
-          return new URLSearchParams({
-            table: this.table
-          });
-        }
-      }
-
-      function randomize_seed() {
-        manager.new_seed();
-        history.replaceState(
-          manager.state_obj(),
-          "",
-          "?" + manager.url_fragment().toString()
-        );
-        manager.render();
-      }
-
-      function randomize_rule() {
-        manager.new_table();
-        history.pushState(
-          manager.state_obj(),
-          "",
-          "?" + manager.url_fragment().toString()
-        );
-        manager.render();
-      }
-
-      function set_data_url_link(data_url) {
-        let target = document.getElementById("data-url-target");
-        target.href = data_url;
-      }
-
-      var manager;
-
-      window.onpopstate = function(ev) {
-        manager.set_state(ev.state);
-        manager.render();
-      };
-
-      function init() {
-        let params = new URL(window.location).searchParams;
-        manager = new AppManager();
-        if (params.has("table")) {
-          let tbl = params.get("table");
-          console.log("setting table to", tbl);
-          manager.new_table(tbl);
-        } else {
-          manager.new_table();
-        }
-        manager.render();
-      }
+      window.onpopstate = EventHandlers.popState;
       wasm_bindgen("./celaut_explorer_bg.wasm")
-        .then(init)
+        .then(EventHandlers.initialize)
         .catch(console.error);
     </script>
   </body>
