@@ -8,9 +8,8 @@ edition = "2018"
 crate-type = ["cdylib"]
 
 [dependencies]
-wasm-bindgen="=0.2.27"
+wasm-bindgen="=0.2.33"
 celaut = {path="../celaut"}
-rand="*"
 
 [dev-dependencies]
-wasm-bindgen-cli="=0.2.27"
+wasm-bindgen-cli="=0.2.33"
