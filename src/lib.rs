@@ -18,9 +18,9 @@ impl<'a> CelautImageData<'a> {
 fn to_pixel_data(cell: celaut::CellValue) -> [u8; 4] {
     const RATIO: f32 = 255.0 / (celaut::CELL_LIMIT - 1) as f32;
     let intensity = (RATIO * cell.to_f32()) as u8;
-    let mut data: [u8; 4] = [255; 4];
-    for idx in 0..3 {
-        data[idx] = intensity;
+    let mut data: [u8; 4] = [255; 4]; // Initialize to 255 so that alpha is 255
+    for d in data.iter_mut().take(3) {
+        *d = intensity;
     }
     data
 }
@@ -30,8 +30,8 @@ impl<'a> celaut::render::Target for CelautImageData<'a> {
         use celaut::CELAUT_SIZE;
         let start_idx: usize = (y * CELAUT_SIZE as u32 + x) as usize * 4;
         let pixel_data = to_pixel_data(value);
-        for offset in 0..4 {
-            self.array[start_idx + offset] = pixel_data[offset];
+        for (offset, pixel_datum) in pixel_data.iter().enumerate() {
+            self.array[start_idx + offset] = *pixel_datum;
         }
     }
 }
