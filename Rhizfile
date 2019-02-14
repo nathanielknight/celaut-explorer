@@ -1,0 +1,15 @@
+(task "build"
+  (empty-dir "release")
+  (delete "ts_src/celaut_explorer.d.ts")
+
+  (exec cargo +nightly build --release --target wasm32-unknown-unknown)
+  (
+    exec wasm-bindgen
+      --no-modules
+      --out-dir "./release"
+      target/wasm32-unknown-unknown/release/celaut_explorer.wasm
+  )
+  (copy "release/celaut_explorer.d.ts" "ts_src/")
+  (exec tsc)
+  (copy "index.html" "./release/")
+)
