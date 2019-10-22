@@ -1,21 +1,29 @@
 {
-  "compilerOptions": {
-    "target": "es5",
-    "module": "none",
-    "outDir": "release/",
-    "removeComments": true,
-    "strict": true,
-    "alwaysStrict": true,
-    "noImplicitAny": true,
-    "strictNullChecks": true,
-    "strictFunctionTypes": true,
-    "strictPropertyInitialization": true,
-    "noImplicitReturns": true,
-    "noImplicitThis": true,
-    "noUnusedLocals": true,
-    "noFallthroughCasesInSwitch": true,
-    "forceConsistentCasingInFileNames": true,
-    "lib": ["dom", "es6", "scripthost", "es2017.typedarrays"]
-  },
-  "files": ["ts_src/manager.ts", "ts_src/celaut_explorer.d.ts"]
+    "compilerOptions": {
+        "target": "es5",
+        "module": "none",
+        "outDir": "release/",
+        "removeComments": true,
+        "strict": true,
+        "alwaysStrict": true,
+        "noImplicitAny": true,
+        "strictNullChecks": true,
+        "strictFunctionTypes": true,
+        "strictPropertyInitialization": true,
+        "noImplicitReturns": true,
+        "noImplicitThis": true,
+        "noUnusedLocals": true,
+        "noFallthroughCasesInSwitch": true,
+        "forceConsistentCasingInFileNames": true,
+        "lib": [
+            "dom",
+            "es6",
+            "scripthost",
+            "es2017.typedarrays"
+        ]
+    },
+    "files": [
+        "ts_src/manager.ts",
+        "ts_src/celaut_explorer.d.ts"
+    ]
 }
