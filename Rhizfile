@@ -5,7 +5,7 @@
   (exec cargo +nightly build --release --target wasm32-unknown-unknown)
   (
     exec wasm-bindgen
-      --no-modules
+      --target no-modules
       --out-dir "./release"
       target/wasm32-unknown-unknown/release/celaut_explorer.wasm
   )
